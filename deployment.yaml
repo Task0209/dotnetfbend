@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inventoryapi-deployment
+  namespace: api
+spec:
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: inventoryapi-container
+        image: myapp_api:latest
+        imagePullPolicy: Never
+        env:
+          - name: DBHOST
+            value: mysql8-service
+          - name: MYSQL_USER
+            value: newuser
+          - name: MYSQL_PASSWORD
+            value: pass@word1234
+          - name: MYSQL_DATABASE
+            value: Usersdb
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
